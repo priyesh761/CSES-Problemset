@@ -4,6 +4,9 @@ using namespace std;
 using pi = pair<int, int>;
 #define F first
 #define S second
+
+// for reference cp handbook page 138- tree algorithms
+// compute maximum distance node from child nodes side.
 int dfs1(vector<vector<int>> &G, vector<vector<pi>> &dp, int curr, int par)
 {
     for (int i = 0; i < G[curr].size(); i++)
@@ -20,16 +23,17 @@ int dfs1(vector<vector<int>> &G, vector<vector<pi>> &dp, int curr, int par)
                 dp[curr][1] = max(dp[curr][1], {tmp, G[curr][i]});
         }
     }
-    return dp[curr][0].first + 1;
+    return dp[curr][0].F + 1;
 }
 
+// compute maximum distance node from parent node side.
 void dfs2(vector<vector<int>> &G, vector<vector<pi>> &dp, int curr, int par)
 {
     if (par != -1)
     {
-        if (dp[par][0].second != curr)
+        if (dp[par][0].S != curr)
         {
-            if (dp[par][0].first + 1 > dp[curr][0].first)
+            if (dp[par][0].F + 1 > dp[curr][0].F)
             {
                 dp[curr][1] = dp[curr][0];
                 dp[curr][0] = {dp[par][0].F + 1, par};
@@ -37,9 +41,9 @@ void dfs2(vector<vector<int>> &G, vector<vector<pi>> &dp, int curr, int par)
             else
                 dp[curr][1] = max(dp[curr][1], {dp[par][0].F + 1, par});
         }
-        else if (dp[par][1].second != curr)
+        else if (dp[par][1].S != curr)
         {
-            if (dp[par][1].first + 1 > dp[curr][0].first)
+            if (dp[par][1].F + 1 > dp[curr][0].F)
             {
                 dp[curr][1] = dp[curr][0];
                 dp[curr][0] = {dp[par][1].F + 1, par};
@@ -74,6 +78,7 @@ int main()
         G[x].push_back(y);
         G[y].push_back(x);
     }
+
     dfs1(G, dp, 0, -1);
 
     dfs2(G, dp, 0, -1);
