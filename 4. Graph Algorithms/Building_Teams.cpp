@@ -16,6 +16,7 @@ bool dfs(vector<vector<int>> &G, vector<int> &res, bool color, int curr)
     }
     return st;
 }
+
 int main()
 {
     int n, m;
